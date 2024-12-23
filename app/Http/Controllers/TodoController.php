@@ -128,7 +128,7 @@
          $validator = Validator::make($request->all(), [
              'title' => 'required|string|max:255',
              'details' => 'nullable|string',
-             'status' => 'required|in:completed,in_progress,not_started',
+             'status' => 'nullable|in:completed,in_progress,not_started',
          ]);
  
          if ($validator->fails()) {
@@ -221,5 +221,16 @@
  
          return response()->json(['message' => 'Todo deleted successfully']);
      }
+
+     public function show($id)
+{
+    $todo = Todo::find($id);
+
+    if (!$todo) {
+        return response()->json(['message' => 'Todo not found'], 404);
+    }
+
+    return response()->json($todo);
+}
  }
  
